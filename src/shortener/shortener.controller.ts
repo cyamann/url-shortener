@@ -1,6 +1,7 @@
-import { Controller, Post, Get, Body, Param, Res, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Res, HttpException, HttpStatus, BadRequestException} from '@nestjs/common';
 import { ShortenerService } from './shortener.service';
 import { Response } from 'express';
+import { isValidUrl } from '../common/utilities/url-validator';
 
 @Controller()
 export class ShortenerController {
@@ -8,6 +9,9 @@ export class ShortenerController {
 
   @Post('shorten')
   async create(@Body('url') url: string) {
+    if (!isValidUrl(url)) {
+      throw new BadRequestException('Invalid URL provided');
+    }
     return await this.shortenerService.shortenUrl(url);
   }
 
