@@ -5,13 +5,14 @@ import Redis from 'ioredis';
 export class ShortenerService {
   private redis = new Redis();
 
-  async shortenUrl(url: string): Promise<string> {
+  async shortenUrl(url: string): Promise<{ shortUrl: string }> {
     const shortUrl = Math.random().toString(36).substring(2, 8);
     await this.redis.set(shortUrl, url, 'EX', 86400);
-    return `http://localhost:3000/${shortUrl}`;
+    return { shortUrl: `http://localhost:3000/${shortUrl}` };
   }
 
-  async getUrl(shortUrl: string): Promise<string> {
-    return await this.redis.get(shortUrl);
+  async getUrl(shortUrl: string): Promise<{ originalUrl: string | null }> {
+    const originalUrl = await this.redis.get(shortUrl);
+    return { originalUrl };
   }
 }
