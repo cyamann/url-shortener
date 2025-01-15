@@ -37,16 +37,19 @@ A step-by-step series of examples that tell you how to get a development environ
 Copy .env.example to .env
 Update the .env file with your Redis server details and API base URL
 
-Usage
+###Usage
 Shorten a URL
 Endpoint: /shorten
 Method: POST
-Body:
+
+
+###Body:
 {
 "url": "https://example.com",
 }
-Response:
-json
+
+
+###Response:
 {
 "shortUrl": "http://localhost:3000/abcdef"
 }
